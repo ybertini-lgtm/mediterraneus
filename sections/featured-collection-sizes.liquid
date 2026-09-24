@@ -40,6 +40,7 @@
     --rq-cols-mobile: {{ cols_mobile }};
     --rq-gap: {{ section.settings.gap }}px;
     --rq-ratio: {{ ratio_css }};
+    --rq-quick-height: {{ section.settings.overlay_height }}%;
     --rq-overlay-bg: {{ section.settings.overlay_bg | color_modify: 'alpha', overlay_alpha }};
     --rq-overlay-text: {{ section.settings.overlay_text }};
     --rq-size-bg: {{ section.settings.size_bg }};
@@ -478,20 +479,25 @@
   @media (hover: none) { .rq-card__arrow { opacity: 0.8; } }
 
   /* ---------- Panneau "Ajouter au panier" ---------- */
+  /* Hauteur limitée à un % de l'image (réglage "Hauteur du panneau") */
   .rq-card__quick {
     position: absolute;
     left: 0; right: 0; bottom: 0;
     z-index: 3;
-    padding: 2rem 1.5rem;
+    height: var(--rq-quick-height, 25%);
+    container-type: size;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0 6%;
+    overflow: hidden;
     background: var(--rq-overlay-bg);
     color: var(--rq-overlay-text);
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
     transform: translateY(101%);
     transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-  @media screen and (min-width: 990px) {
-    .rq-card__quick { padding: 2.6rem 3.6rem 2.8rem; }
   }
   @media (hover: hover) {
     .rq-card:hover .rq-card__quick { transform: translateY(0); }
@@ -500,14 +506,15 @@
   .rq-card.is-open .rq-card__quick { transform: translateY(0); }
 
   .rq-card__quick-label {
-    margin: 0 0 1.4rem;
-    font-size: 1.3rem;
+    margin: 0;
+    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 15cqh, 1.4rem);
     line-height: 1.2;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-  }
-  @media screen and (min-width: 990px) {
-    .rq-card__quick-label { font-size: 1.5rem; }
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .rq-card__quick-label.is-error { color: #b3261e; letter-spacing: 0.08em; text-transform: none; }
 
@@ -516,30 +523,31 @@
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem 1.1rem;
+    flex-wrap: nowrap;
+    gap: 0.6rem;
   }
+  .rq-sizes > li { flex: 0 1 3.6rem; min-width: 0; }
 
   .rq-size {
     position: relative;
-    min-width: 3.4rem;
-    height: 3.4rem;
-    padding: 0 0.6rem;
+    width: 100%;
+    height: 3rem;
+    height: clamp(2.2rem, 42cqh, 3.8rem);
+    padding: 0 0.3rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font: inherit;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-size: clamp(1rem, 16cqh, 1.3rem);
     letter-spacing: 0.05em;
     text-decoration: none;
+    white-space: nowrap;
     background: var(--rq-size-bg);
     color: var(--rq-size-text);
     border: 1px solid var(--rq-size-border);
     cursor: pointer;
     transition: background 0.15s ease, color 0.15s ease;
-  }
-  @media screen and (min-width: 990px) {
-    .rq-size { min-width: 3.8rem; height: 3.8rem; font-size: 1.3rem; }
   }
   .rq-size:not(.rq-size--off):hover,
   .rq-size:not(.rq-size--off):focus-visible {
@@ -1002,6 +1010,16 @@
       "id": "sale_label",
       "default": "Promo",
       "label": "Texte du badge promo"
+    },
+    {
+      "type": "range",
+      "id": "overlay_height",
+      "min": 15,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "default": 25,
+      "label": "Hauteur du panneau (% de l'image)"
     },
     {
       "type": "color",
