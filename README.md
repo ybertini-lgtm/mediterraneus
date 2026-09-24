@@ -1,4 +1,4 @@
-# Section Shopify « Collection – tailles au survol »
+# Section Shopify « Collection tailles »
 
 Section Dawn inspirée de rhythmlivin.com : au survol d'une image produit, un panneau
 « Ajouter au panier » apparaît en bas de l'image avec les tailles.
@@ -15,7 +15,7 @@ Section Dawn inspirée de rhythmlivin.com : au survol d'une image produit, un pa
 1. Shopify Admin → Boutique en ligne → Thèmes → `…` → **Modifier le code**
 2. Dossier **sections** → **Ajouter une section** → nommez-la `featured-collection-sizes`
 3. Remplacez tout le contenu par celui de `sections/featured-collection-sizes.liquid` et enregistrez
-4. Dans l'éditeur de thème : **Ajouter une section** → « Collection – tailles au survol »
+4. Dans l'éditeur de thème : **Ajouter une section** → « Collection tailles »
 5. Choisissez une collection dans chaque bloc « Onglet collection »
 
 ## À vérifier
